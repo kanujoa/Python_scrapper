@@ -1,0 +1,6 @@
+보유하고 있는 돈의 0.35%를 세금으로 부과해야 한다고 할 때, 내야 할 세금을 출력하는 tax calculator를 만들어 보자!
+
+def tax_caculator(money):
+    print(monet * 0.35)
+
+tax_calculator(15000000)     --> 결과는5250000.0이 나온다.
