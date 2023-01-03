@@ -1,0 +1,49 @@
+Python 카지노를 만들어 보자.
+Python이 숫자를 하나 선택하고 그 후에 user가 숫자를 하나 선택하여 user가 숫자를 정확하게 맞췄다면 이기고 아니면 지는 코드를 
+작성해 보자.
+
+1. user에게서 숫자 입력 받기
+user_choice = int(input("Choose number."))     --> input으로 Choose number 옆에 입력하는 수를 받고, int 함수를 통해 그것을 실제
+                                                                   숫자로 변환하여 변수에 할당하는 코드이다.
+(input 함수는 사용자에게 input을 요청하고, 사용자가 키보드로 입력한 문자열을 반환할 것이다.)
+
+2. 컴퓨터의 숫자 선택(나중에는 랜덤한 숫자로 바꿀 것임)
+pc_choice = 50
+
+3. 조건문 작성
+if user_choice == pc_choice:     --> 1. user입력 숫자와 pc가 정한 숫자가 같을 경우: user 승리
+  print("You won!")
+elif user_choice > pc_choice:     --> 2. user 입력 숫자가 pc가 정한 숫자보다 클 경우: 더 작은 수를 입력해야 한다고 알려주기
+  print("Lower!")
+elif user_choice < pc_choice:     --> 3. user 입력 숫자가 pc가 정한 숫자보다 작을 경우: 더 큰 수를 입력해야 한다고 알려주기
+  print("Higher!")
+
+모든 조건을 다 적어주었으므로 else는 적어줄 필요가 없다.
+
+결과: 10을 입력하면 Higher!, 50을 입력하면 You won!, 80을 입력하면 Lower!가 정상적으로 출력되는 것을 볼 수 있다.
+
+4. 숫자 랜덤하게 생성하기
+python 사이트에서 The Python Standard Library를 살펴보자. (https://docs.python.org/3.11/library/index.html)
+모든 프로그래밍 언어들에서 Standard Library는 언어에 default로 포함된 function들이 있다. 우리가 언어를 다운로드하면 무료로 이 
+function들을 사용할 수 있다.
+
+그 중 Built-in Functions를 클릭하면 int, input, print와 같은 함수들을 볼 수 있다. built-in function은 항상 사용할 수 있는 function을 
+의미한다. bulit-in function 이외의 다양한 함수를 쓰고 싶다면 모듈을 import해주면 된다.
+우리는 random 모듈을 불러와서 그것에 포함되어 있는 randint 함수를 사용해볼 것이다.
+randint 함수는 a <= N <= b를 만족하는 임의의 정수 N을 반환하는 함수이다. randrange(a, b+1)의 별칭으로 random.randint(a, b)로
+작성한다.
+( 3.11.1 Documentation » The Python Standard Library » Numeric and Mathematical Modules » random — Generate pseudo-random
+numbers 에서 발췌)
+from random import randint     --> 주목!! (만약 import random만 적어주었다면 아래에서 변수 생성할 때 random.randint(1, 50)으로 적어야 함.)
+
+user_choice = int(input("Choose number."))
+pc_choice = randint(1, 50)     --> 주목!! (1 이상 50이하의 수 중에서 랜덤으로 숫자 하나를 뽑는 코드이다.)
+
+if user_choice == pc_choice:
+  print("You won!")
+elif user_choice > pc_choice:
+  print("Lower! Computer chose", pc_choice)     --> 틀렸을 경우 컴퓨터가 선택한 숫자도 알려주는 코드를 추가함.
+elif user_choice < pc_choice:
+  print("Higher! Computer chose", pc_choice)     --> 이하동문 
+
+* from random import randint, random 이렇게 하나의 모듈에서 여러 개의 함수를 불러오는 것도 가능하다.

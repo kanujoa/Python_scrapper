@@ -1,0 +1,52 @@
+user가 음주할 수 있는 나이인지 아닌지를 계산하는 코드를 짜 볼 것임.
+
+1. input 함수: input은 오직 하나의 argument만 받는다.
+ex) input("How old are you?")를 작성하면 console창에 How old are you가 뜨는데 그것으로 끝난 것이 아니다. 옆에 값을 입력하고 enter
+    를 누르거나 replit에서는 상단에 있는 Stop 버튼을 누르면 함수와 프로그램이 종료가 되게 된다.
+
+다음과 같이 input의 값을 변수에 저장하여 활용할 수 있다.
+age = input("How old are you?")
+print("user answer", age)
+
+--> 결과: How old are you?21 (21이 내가 직접 입력한 값에 해당한다.)
+             user answer 21
+
+2. type 함수: 변수의 type을 알려줌.
+(앞의 코드에 이어서 작성)  print(type(age))     --> console창에 나이를 입력하면 결과로 <class 'str'>이 나오는 것을 볼 수 있다.
+즉, input 함수는 argument를 string 형태로 인식한다.
+이따가 age를 숫자와 비교하는 조건문을 작성할 것이므로 age는 string이 아닌 int type이 되어야 한다. 따라서 다음과 같이 type을 바꾸어
+준다.
+age = int(input("How old are you?"))      --> int는 user가 입력한 string을 받고, int는 그 string을 숫자로 바꾸어 줄 것이다.
+
+그리고 18세 미만(if문)은 술을 마실 수 없고, 18세 이상은(else문) 술을 마실 수 있다는 문구를 출력하는 코드를 작성해 준다.
+if age < 18:
+  print("You can't drink.")
+else:
+  print("Go ahead!")
+결과로 18 미만의 수를 console창에 입력하면 You can't drink.가, 18 이상의 수를 입력하면 Go ahead!가 뜨는 것을 볼 수 있다.
+
+3. 사용자가 18세 이상이면서 동시에 35세 이하인 경우를 확인하는 코드를 작성해 보자.
+--> 'and'를 사용해야 한다. 두 조건을 모두 만족하는 경우을 확인할 것이기 때문이다. ('동시에' 주목!!)
+elif age >= 18 and age <= 35:
+  print("You drink beer!")
+--> 'and'를 사용하면 앞부분이나 뒷부분 한개라도 false라면 전체가 false가 된다. 양쪽 모두가 true여야지 전체도 true가 된다.
+18을 입력할 경우 위 조건 2가지에 모두 부합하므로 You drink beer!가 결과로 나오게 된다.
+
+4. 사용자가 60세이거나 70세인 경우를 확인하는 코드를 작성해 보자.
+--> 'or'을 사용해야 한다. 두 조건중 하나라도 만족하면 실행문을 실행하는 코드를 작성할 것이다. ('이거나'에 주목!!)
+elif age == 60 or age == 70:
+  print("Birthday party!")
+--> 'or'을 사용하면 둘 중에서 하나만 true여도 전체가 true가 된다. 양쪽 모두가 false일 때만 전체가 false가 된다.
+60을 입력할 경우 위 조건 중 1가지에 부합하므로 Birthday party!가 결과로 나오게 된다.
+
+<정리>
+True and True == True
+True and False == False
+False and True == False
+False and False == False
+
+True or True == True
+True or False == True
+False or True == True
+False or False == False
+
