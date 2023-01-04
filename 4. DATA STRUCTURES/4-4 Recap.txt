@@ -1,0 +1,9 @@
+- 딕셔너리에는 value로 또 다른 딕셔너리, 튜플 등을 넣는 것도 가능하다.
+
+- 다음과 같은 것도 가능하다.
+player = {
+  'fav_food': ("🍕", "🍔")     --> fav_food의 value는 tuple이지만 
+}
+player['fav_food'] = "🍘"     --> 다음과 같이 변경할 수 있다. 이것은 tuple 안의 값을 바꾸는 것이 아니라 value 그 자체를 변경하는
+                                          것이기 때문이다.
+print(player)
