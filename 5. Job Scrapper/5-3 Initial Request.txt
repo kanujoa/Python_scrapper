@@ -1,0 +1,48 @@
+weworkremotely 웹사이트를 스크래핑 해 볼 것이다.
+이 사이트의 디자인은 계속해서 변할 것이기 때문에 강의에서 나오는 HTML tag와 내 것이랑 다를 수 있으므로 상황에 맞게 수정하면서 
+진행해야 한다.
+
+
+1. 사이트의 검색창에 python을 입력하면 주소가 다음과 같이 나온다.
+https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term=python (utf 부분은 지워도 상관 없다.)
+react를 검색하면 다음과 같이 나온다.
+https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term=react
+우리는 term=python, term=react 부분에 집중해야 한다. 우리가 검색어를 바꿀 때마다 이 부분이 사용자가 주는 키워드로 주소가 나타난다.
+
+
+2. 메인 화면에서 f12를 누르면 개발자 도구 창이 뜨면서 HTML 코드를 볼 수 있다. class jobs-container를 열어 보면 <section>이 나오고
+그 안에 <article>이 있고 그 안에 <ul>이 있는데 ul 안에 있는 <li>들이 우리가 스크래핑할 대상들이다.
+<li>들 중 하나를 열어 보면 회사 사이트 주소가 담긴 a tag가 나오고 그 안에는 <span>으로 감싼 회사 이름, 제목, 고용 형태, 지역 등의
+정보를 확인할 수 있다.
+
+
+3. 우리가 해야 할 것은 python을 통해 이 웹사이트로 들어가서 모든 <li>들을 찾아내는 것이다.
+이 <li>들은 section(class = "job") tag 아래, article tag 아래, ul tag 아래에 속해 있다는 것을 염두해 두고 가자.
+
+from requests import get     --> requests 모듈로부터 get함수를 받아온다. (get은 우리가 웹사이트를 받아오는 방식이다.)
+
+base_url = "https://weworkremotely.com/remote-jobs/search?term="     --> base_url 설정
+(우리는 검색어에 따라 term= blabla 부분만 달라진다는 것을 알았으므로 바뀌는 부분만 비워놓고 공통된 부분을 base 주소로 설정한다.)
+search_term = "python"     --> 검색어를 변수에 담아준다.
+
+response = get(f"{base_url}{search_term}")     --> 공통 부분인 base_url과 언제든지 바뀌는 것이 가능한 변수 search_term을 합쳐주어 
+                                                                 주소를 완성해준다. (get 요청 만들기)
+(f를 꼭 적어주어야지만 문자열 안에 변수를 넣는 것이 가능하다.)
+
+print(response)      --> 결과: <Response [200]>이 뜨는 것으로 보아 내 요청에 대해 웹사이트가 성공적으로 응답하였음을 알 수 있다.
+
+but 내가 원하는 것은 응답 자체가 아닌 실제 웹사이트이다. 이러한 결과를 얻기 위해서는 response의 text를 받아오면 된다.
+print(response.text)     --> 결과: 웹사이트(python을 검색하였을 때 나오는 화면)를 구성하고 있는 긴 HTML 코드 전체가 나온다.
+ex) python을 검색하였을 때 화면에 나오는 회사 중 하나인 lemon.io을 replit console창에서 검색해 보면 관련 코드가 존재하는 것을 확인
+    가능하다.
+
+이렇게 우리는 python이 웹사이트로 들어가 HTML코드를 가져올 수 있도록 해 보았다.
+
+
+.4 but response의 상태 코드가 항상 200이 아닐 수도 있다. 또, 웹사이트에서 스크래핑을 해 가는 것을 막아놓았을수도 있다. 따라서 조건
+문을 이용하여 응답이 성공적이지 못할 때의 코드도 적어주어야 한다.
+
+if response.status_code != 200:     
+  print("Can't request website")
+else:
+  print(response.text)
