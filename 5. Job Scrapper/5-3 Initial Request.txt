@@ -12,7 +12,7 @@ https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term=react
 
 2. 메인 화면에서 f12를 누르면 개발자 도구 창이 뜨면서 HTML 코드를 볼 수 있다. class jobs-container를 열어 보면 <section>이 나오고
 그 안에 <article>이 있고 그 안에 <ul>이 있는데 ul 안에 있는 <li>들이 우리가 스크래핑할 대상들이다.
-<li>들 중 하나를 열어 보면 회사 사이트 주소가 담긴 a tag가 나오고 그 안에는 <span>으로 감싼 회사 이름, 제목, 고용 형태, 지역 등의
+<li>들 중 하나를 열어 보면 자세한 채용 정보 주소가 담긴 a tag가 나오고 그 안에는 <span>으로 감싼 회사 이름, 제목, 고용 형태, 지역 등의
 정보를 확인할 수 있다.
 
 
