@@ -1,9 +1,0 @@
-job_data의 객체로 'link'를 추가해 준다.
-job_data = {
-        'link': f"https://weworkremotely.com{link}",     
-        'company': company.string,
-        'region': region.string,
-        'position': title.string
-      }
---> 위에서 link = anchor['href']라고 설정해 주었으므로 link는 html tag를 제외한 주소 text가 이미 담겨있다.
-     그리고 고려해 주어야 할 점은 link 변수에 들어있는 link는 상대경로이다. 따라서 앞에 주소를 추가해 주어야 한다.
