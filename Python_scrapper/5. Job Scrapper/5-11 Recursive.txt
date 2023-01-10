@@ -1,0 +1,25 @@
+1. indeed 사이트에 python이라고 검색해 보자. 검색 후 주소는 다음과 같이 된다.
+https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62
+우리가 검색한 python은 'q=python'의 형태로 주소에 나타나 있는 것을 볼 수 있다. 그 말은 q= 다음에 입력할 부분에 내가 원하는 검색어를 직접 입력해 주어도 그에 맞는
+사이트로 이동한다는 것이다. 
+
+스크래핑하기 위해서 이전에 했던 것과 같은 것들을 해주면 된다.
+
+
+2. 이전 스크래핑 코드는 extractors 폴더로 옮겼으므로 main.py에서 작성한다.
+from requests import get
+from bs4 import BeautifulSoup
+from extractors.wwr import extract_wwr_jobs
+
+base_url = "https://kr.indeed.com/jobs?q="
+search_term = "python"
+
+response = get(f"{base_url}{search_term}")
+
+if response != 200:
+  print("Can't request page.")     --> 실행시켜 보면 예상과는 다르게 이 문구가 console 창에 뜨는 것을 볼 수 있다. response.status_code를 통해 알아보니 403 에러이다.
+else:
+  print(response.text)
+
+403에러를 고치는 방법은 다음 강의에서 알 수 있다. 여기부터는 bug를 고친 후라고 가정하고 이어나가겠다.
+

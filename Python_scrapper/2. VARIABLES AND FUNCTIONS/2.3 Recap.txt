@@ -1,0 +1,15 @@
+1. variable 만들기
+my_name = "nico"     --> 문자(string, text)를 변수에 저장할 수 있다.
+age = 12     --> 숫자(int, number)를 변수에 저장할 수 있다.
+dead = False    --> 상태를 변수에 저장할 수 있다.
+* False를 이진법으로 --> 0, True를 이진법으로 --> 1
+  따옴표를 작성하면 문자로 인식하고 작성하지 않으면 bool type으로 인식함.
+
+
+2. 변수를 print문에 활용하기
+print("Hello my name is", my_name)
+print("and I'm", age, "years old")
+
+<결과>
+Hello my name is nico
+and I'm 12 years old

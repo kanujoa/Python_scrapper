@@ -1,0 +1,26 @@
+While은 또 다른 의미의 조건문이다. while은 우리가 중지할 때까지 계속 동작한다.
+
+1. 코드를 무시하는 법 (주석 달기)
+원하는 부분에 '#'를 달면 된다.
+ex) pc_choice = randint(1, 50)     # I imported this
+
+but 주석처리해야할 것이 너무 많은 경우에는 주석처리 시작부분과 끝부분 각각 위아래에 따옴표 '3개씩' 작성한다.
+ex)""" 
+    pc_choice = randint(1, 50)
+    """
+
+2. While은 if와 비슷한 점이 있다. if는 조건문을 가진다. 만약 if의 조건문이 True였다면 그 조건문의 print문이 실행되었었다.
+그런데 if문은 실행문을 적으면 그 실행문이 딱 한번씩밖에 실행되지 않는다.
+while은 멈추지 않는다는 점만 제외하면 if와 같다.
+ex) while True:
+         print("Hi im True")     --> 내가 멈추기 전까지 Hi im True가 끊임없이 실행된다. while이 False가 되면 멈춘다.
+(ctrl + c 눌러 KeyboardInterrupt 시키면 멈추게 하기가 가능하다.)
+
+ex) distance = 0
+
+    while distance < 20:     --> distance값을 0으로 설정해 두었고 이것은 항상 참이기 때문에 
+        print("I'm running:", distance, "km")      --> 이것이 무한으로 실행됨. (I'm running: 0 km)
+        distance = distanace + 1     --> but 이 코드가 추가된다면 달라짐. while이 한 번 실행될 때마다 distance가 1씩 늘어나므로
+                                                   distance가 20이 되는 때에는 while False가 되어서 반복문이 종료되게 됨.
+결과는 I'm running: 0 km ~ I'm running: 19 km 까지 console창에 나타남.
+

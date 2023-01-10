@@ -1,0 +1,47 @@
+1. 이번에는 indeed scrapping을 해 볼 것이고 이전에 작성한 코드 내용을 재사용하기 위해서 그 코드 내용을 extract_wwr_jobs라는 함수 안에 넣어줄 것이다. 우선 extractors라는 새로운 폴더를 하나 생성하고 그 하부에 wwr.py라는 파일을 하나 생성하여 그곳에서 작업한다. 
+
+from requests import get
+from bs4 import BeautifulSoup
+
+def extract_wwr_jobs(keyword):      --> keyword가 search_term을 대신한다. 즉, 검색하고 싶은 단어를 이 함수의 인자로 넣어주면 된다.
+  base_url = "https://weworkremotely.com/remote-jobs/search?term="
+  (search_term = "python").    --> 대신 이 코드는 아예 삭제시켜야 한다.
+  
+  response = get(f"{base_url}{search_term}")
+  if response.status_code != 200:
+    print("Can't request website")
+  else:
+    results = []
+    soup = BeautifulSoup(response.text, "html.parser")
+    jobs = soup.find_all("section", class_="jobs")
+    for job_section in jobs:
+      job_posts = job_section.find_all("li")
+      job_posts.pop(-1)
+      for post in job_posts:
+        anchors = post.find_all("a")
+        anchor = anchors[1]
+        link = anchor['href']
+        company, kind, region = anchor.find_all('span', class_="company")
+        title = anchor.find('span', class_="title")
+        job_data = {
+          'link': f"https://weworkremotely.com{link}",
+          'company': company.string,
+          'region': region.string,
+          'position': title.string
+        }
+        results.append(job_data)
+    return results    
+--> result를 반환한다. 이전에는 for문을 이용하여 console창에 한 세트씩 출력하는 코드였는데 우리는 나중에 이 정보를 가지고 파일에 저장하기를 원하는데 그렇게 하면 아무 의미가 없기 때문이다.
+
+이제 function을 호출하기만 하면 scrapping하는 코드를 몇번이든지 재사용 가능하다.
+
+
+2. 이제 모듈을 만들었으니 main.py 파일로 가서 이것을 import하는 코드를 작성해 보겠다.
+from extractions.wwr import extract_wwr_jobs
+
+extractions라는 폴더 하부에 있는 wwr이라는 이름의 파일로부터 extract_wwr_jobs라는 함수를 가져오라는 의미이다.
+이것을 적어주면 main.py에서의 scrapping 코드는 삭제해도 된다.
+
+잘 작동이 되는지 확인을 위해서 다음과 같이 해 보았다.
+jobs = extract_wwr_jobs("python")
+print(jobs).    --> 결과로 link, company, region, position이 담긴 딕셔너리들과 그들로 이루어진 리스트 하나가 출력되는 것을 볼 수 있다.
