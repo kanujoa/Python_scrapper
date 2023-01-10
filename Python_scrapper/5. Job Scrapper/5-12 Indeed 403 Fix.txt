@@ -1,0 +1,56 @@
+1. 403에러로 인해 indeed 사이트에서 주소에 해당하는 화면의 HTML 코드를 가져오는 것에 실패하였다.
+이유는 이제 indeed 사이트가 우리가 봇인지 아닌지를 검사하기 시작했기 때문이다.
+
+다음과 같이 한 개의 특정한 주소를 get함수의 인자로 대입하여 확인해 보자.
+
+from requests import get
+
+response = get("https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62")
+
+print(response.status_code)     --> 결과: 403
+print(response.text)     --> 결과: 봇인지 아닌지를 확인하기 위한 페이지의 HTML 코드가 쭉 나온다.
+
+우리가 봇이라고 인식되었기 때문에 indeed 사이트의 jobs에 접근할 수 없었다.
+
+
+2. 이를 해결하기 위해 셀레니움이라는 것을 배워야 한다. 브라우저를 자동화할 수 있는 프로그램이다.
+우리가 http request를 보낸 것을 indeed에서 봇으로 파악하여 접근을 막고 있으므로 셀레니움을 이용하여 실제로 브라우저를 실행시켜서 해결하면 된다.
+크롬 브라우저를 실행하고, 그 브라우저로 indeed 페이지에 방문할 것이다. 마치 사람이 직접 쳐서 방문하는 것처럼 말이다.
+그러면 indeed에서는 우리를 봇이 아닌 브라우저라고 인식하게 된다.
+
+replit에 Selenium을 설치한다. 또한 셀레니움은 실제 다운로드도 필요하다.
+
+우선, replit에서 왼쪽 바에서 Files 옆에 위치한 점 3개 버튼을 누르면 숨겨진 replit 파일들이 나온다. 즈 중 replit.nix를 클릭하여 replit의 설정값을 조금 변형해 줄 것이다.
+deps = [
+    pkgs.python38Full
+    pkgs.chromium     --> 주목!! 이 코드를 추가한다. chromium은 크롬 브라우저의 기반이 되는 브라우저이다.
+    pkgs.chromedriver     --> 주목!! 이 코드도 추가한다.
+  ];
+그러고 나서 play 버튼을 누르면 무언가가 조금 설치되고 변화가 없는 것을 볼 수 있다.
+
+마치면 main.py로 가서 import selenium이라고 작성한 후 play 버튼을 눌러 자동으로 Selenium을 설치한다.
+
+설치가 끝나면 from selenium import webdriver 이라고 코드를 교체한다. webdriver는 파이썬에서 브라우저를 시작할 수 있는 방법이다.
+
+
+3. replit 안에서 브라우저가 동작하게 하기 위해 몇 가지 옵션을 전달해야 하므로 options 객체를 만들어 준다.
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+
+
+4. request를 이용하여 indeed에 접근하면 차단이 되기 때문에 이제 더 이상 request를 이용하여(get 함수를 사용하여) indeed에 접근하지 않을 것이다. 따라서 request와 
+get에 관련된 코드들은 모두 지워준다.
+대신 우리가 만든 브라우저를 이용하여 indeed에 접속할 것이다.
+
+browser = webdriver.Chrome(options=options)     --> webdriver.Chrome에 아까 만들어둔 options를 넘겨준다.
+
+browser.get("https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62")     --> 브라우저를 통해서 indeed에 접근한다.
+
+play 버튼을 누르면 이제 더 이상 차단당하지 않고 indeed 사이트 화면이 띄워지는 것을 볼 수 있다. (한글 지원은 되지 않는다. but HTML은 똑같이 나옴!)
+(만약 주소 자리에 노마드 코더 사이트를 대신 입력하였다면 노마드 코더 사이트 화면이 대신 결과로 띄워질 것이다.)
+
+print(browser.page_source)를 입력하면 python 검색어를 입력하여 나온 화면의 HTML 코드가 매우 길게 뜨는 것을 볼 수 있다.
+이것이 다음에 beautifulsoup에 전달할 HTML이 될 것이다. 

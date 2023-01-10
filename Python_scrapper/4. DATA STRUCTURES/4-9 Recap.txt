@@ -1,0 +1,19 @@
+- for website in websites     --> websites 튜플 안의 item들이 차례로 하나하나씩 website 변수에 할당되고 마지막 item이 할당될 때까지
+                                           website 변수로의 할당이 계속된다.
+
+- startswith 메소드: startswith 메소드의 인자로 들어가는 것으로 data가 시작하는게 맞느냐의 결과를 반환하는 메소드, return 값은 bool 
+                          자료형이다. (True or False)
+                          이 코드의 앞에 not을 붙여주면 not True 즉 False일때가 된다. (data가 인자로 시작하지 않을 때를 의미하게 됨.)
+                          
+- if문을 사용했을 때 그 조건문에 해당되지 않는 것들은 따로 else나 elif로 적어준 것이 없다면 if문을 통과하여 그냥 그 상태로 진행되게 된다.
+
+- get 함수: requests 모듈에서의 함수, 하나의 URL을 인자로 받고 우리가 웹사이트를 가져올 수 있게 해 준다.
+
+
+<과제>
+상태 코드에는 200말고도 다양한 것들이 있는데 예를 들어 308같은 경우 redirect를 함에도 불구하고 FAILED라고 결과가 나오게 된다.
+코드를 수정해야 한다. 이 경우 "REDIRECT"라고 알려주는 코드가 필요하다. 301, 304같은 것들도 redirection이다.
+즉, 200이 아니면 다 error라고 생각하는 코드를 짰다. 따라서 조건문을 이용해 코드를 마저 수정해 보자.
+크기 비교 연산자와 and, or등을 사용할 수 있다.
+
+참고: https://httpstat.us/

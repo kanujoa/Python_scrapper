@@ -1,0 +1,13 @@
+조건문에 관해 배울 것이다.
+
+1. if문의 형태
+if condition:     --> condition(조건문)이 참(True)일 경우
+    "write the code to run"     --> 작동시킬 코드를 작성해라.
+
+ex) if 10 > 5:     --> 10 > 5는 True이기 때문에
+         print("Correct!")     --> 이 print문이 실행되어서 console 창에 "Correct!"라고 뜬다.
+
+a = 10     --> 값이 10인 변수 a
+
+if a == 10:     --> 만약 a가 가지는 값이 10과 같다면 True가 되어
+  print("True!")     --> 옆의 print문이 실행됨. 위의 조건문이 참이므로 console 창에 True!라고 뜸.

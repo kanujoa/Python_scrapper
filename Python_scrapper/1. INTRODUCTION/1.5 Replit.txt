@@ -1,0 +1,9 @@
+1.
+replit은 우리가 python 코드를 작성하려고 하는 웹 사이트이다. (replit.com)
+python 코드를 작성하고 파일을 만드는 등 하고 싶은 작업 다 가능함
+회원가입 후 create -> Python 클릭 -> 원하는 제목 넣고 create repl 클릭
+
+
+2. .py는 파이썬 파일의 확장자를 뜻함. 내용은 그냥 text 이지만 python 파일인 것!
+코드를 작성하고 Run 버튼을 누르면 코드가 실행되어 console에 결과가 뜰 것이다.
+(shell이 아닌 console로 바꾸어 놓자.)

@@ -1,0 +1,14 @@
+이번에는 Python Standard Library에 기본으로 포함되어 있지 않은 모듈을 써 볼 것이다.
+python에 기존에 있던 library가 아닌 다른 사람이 만든 library를 사용해 볼 것이다.
+
+1. pypi : 다른 사람이 만든 project나 module을 모아둔 곳 (python standard library에 포함되어 있지 않은 library들이 나온다.)
+ex) 그 중 topic 카테고리에서 artistic software를 선택하면 우리가 사용할 수 있는 artistic software module이 나온다.
+우리가 사용할 것은 Requests라는 프로젝트이다.
+Requests는 나의 Python 코드에서 웹사이트로 request 보내는 것을 할 수 있게 해준다.
+ex) google 서버로 이동하기: 내 브라우저는 google 서버에 request를 보내고 google 서버는 나에게 웹사이트를 보내준다.
+
+replit에서는 좌측 메뉴에서 큐브 모양을 선택하면 설치하고자 하는 패키지를 찾을 수 있다. 검색란에 requests 입력 후 가장 위에 뜨는 것
+에서의 +모양을 누르면 requests가 성공적으로 설치된다. 이제 코드 입력창에 import 하기만 하면 된다.
+
+from requests import get     --> get은 function으로, website를 가져오는 기능을 한다.
+
