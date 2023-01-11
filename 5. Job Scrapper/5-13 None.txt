@@ -1,0 +1,45 @@
+1. 403 에러 난 것을 다음과 같이 해결하였다. 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+from extractors.wwr import extract_wwr_jobs
+
+options = Options()
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+
+browser = webdriver.Chrome(options=options)
+
+base_url = "https://kr.indeed.com/jobs?q="
+search_term = "python"
+
+browser.get(f"{base_url}{search_term}")
+
+soup = BeautifulSoup(browser.page_source, "html.parser")
+job_list = soup.find("ul", class_="jobsearch-ResultsList")     --> jobsearch-ResultsList class를 가지는 ul tag 하나는 작은 네모난 박스에 담겨 있는 하나의 공고 부분에 해당됨.
+jobs = job_list.find_all('li', recursive=False)     --> 우리는 직업과 관련이 있는 <ul>의 자식 tag인 <li>들만 가져오고 싶다. <li>안에 속하는 <li>들은 제외하고 싶다. 따라서
+                                                              이를 recursive=False라고 입력해주면 구현할 수 있다.
+
+* find와 find_all의 차이
+- find: 하나만 찾아준다.
+- find_all: 모두 찾고 그 결과를 리스트로 돌려준다.
+
+2. None data type
+True, False, 숫자, string 처럼 변수에 넣을 수도 있고, list나 dictionart 안에 넣어도 되는 데이터 타입이다.
+None은 무언가가 없을 때를 의미하는 data type이다. False하고는 다르다. False는 True가 아닌 것을 말한다. 
+None은 무언가가 있어야 하는데 발견되지 않았을 때 나타난다.
+
+mosaic zone이라는 id를 가진 <li>들을 찾아보자. 이 mosaic zone class가 발견되지 않았다면, 직업 정보를 나타낸다고 볼 수 있다. 발견되었다면 해당 class를 가진 li에 해
+당된다. (mosaic zone은 우측에 네모난 박스에 공고 내용이 대략적으로 담겨져 있는 부분 전체에 해당된다. but 이 부분에 속하는 태그들은 전부 화면에 드러나지 않는
+것들이다.) 우리는 직업 정보와 직접적으로 관련이 있는 것만을 원하기 때문에 이러한 필터링 작업을 거쳐야 한다.
+
+for job in jobs:
+  zone = job.find("div", class_="mosaic-zone")
+  if zone == None:     --> 결과로 아무것도 없는 것은(mosaic-zone class가 발견되지 않은 것은)
+    print("job li")     --> job에 관련된 li에 해당한다는 의미
+  else:     --> 결과로 무언가 있다면 
+    print("mosaic li")     --> mosaic과 관련된 li에 해당한다는 의미
+play 결과 어떤 것은 job li이고 어떤 것은 mosaic li인 것을 알 수 있다. 그리고 매 5개의 직업마다 mosaic li를 놓는 규칙이 존재하는 것 또한 알아낼 수 있다.
+
+실제 코드에서는 직업 정보와 관련이 없는 것들은 신경쓰지 않을 것이므로 else 부분은 완전히 삭제해준다.
+
