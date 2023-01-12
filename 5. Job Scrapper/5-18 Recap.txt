@@ -1,0 +1,19 @@
+1. 이번에는 유저에게 입력을 받아 검색한 결과를 2개의 함수를 모두 호출해 값을 얻어낼 것이다.
+
+from extractors.indeed import extract_indeed_jobs     --> extractors 폴더 하부에 있는 indeed 파일로부터 extract_indeed_jobs를 추출한다.
+from extractors.wwr import extract_wwr_jobs     -> extractors 폴더 하부에 있는 wwr 파일로부터 extract_wwr_jobs를 추출한다.
+
+keyword = input("What do you want to search for?:")     --> What do you want to search for?: 옆에 유저가 검색하고 싶은 단어를 입력하면 그것을 keyword 변수
+                                                                            에 받는다.
+
+indeed = extract_indeed_jobs(keyword)     --> job_data들이 element로 있는 results 리스트가 indeed 변수에 대입되게 된다. 
+wwr = extract_wwr_jobs(keyword)     --> job_data들이 element로 있는 results 리스트가 wwr 변수에 대입되게 된다.
+
+jobs = indeed + wwr     --> indeed와 wwr 리스트를 합쳐 하나의 list에 indeed에서의 job_data들과 wwr에서의 job_data들이 모두 들어가도록 하였다.
+
+for job in jobs:     --> jobs 리스트에 있는 요소 하나하나가 job에 대입됨.
+  print(job)     --> job(job_data) 하나가 출력됨.
+  print("/////\n/////")     --> 구분선
+
+
+2. 마지막으로 해야 할 일은 Excel 파일 안에 직업들을 넣는 것이다. (다음 시간에)

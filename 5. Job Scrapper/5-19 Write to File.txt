@@ -1,0 +1,63 @@
+1. 파이썬에서 파일을 열고 파일에 내용을 쓰는 방법을 살펴볼 것이다.
+우선, keyword 코드를 제외하고 모두 주석처리 후에 실행한다.
+
+- open 함수: 파이썬에서 파일을 열기 위해 사용하는 함수인데, print 함수처럼 built-in 함수이다.
+--> 사용법: file = open() 으로 적고 () 안에 열거나 만드려는 파일의 이름을 적어야 한다.
+
+우리는 file = open(f"{keyword}.csv", "w") 이렇게 작성해 우리가 입력해주는 keyword를 파일 이름으로 하는 csv 파일을 만들고 무언가를 작성할 것이다.(w: 쓰기 전용)
+* csv: comma-seperated-value라는 파일 포맷
+
+이것을 입력하고 play 버튼을 눌러 python을 입력하면 파일 목록에 python.csv 파일이 생성되어 있는 것을 볼 수 있다. (확인했으면 지운다.)
+
+
+2. 파일의 헤더를 작성해 보자. 엑셀 테이블이 가지고 있는 열을 적어보자.
+keyword = input("What do you want to search for?:")
+
+file = open(f"{keyword}.csv", "w")
+
+file.write("Position, company, Location, URL\n")    --> file에 적을 내용들이다. (항상 새로운 라인으로 끝을 내기 위해 \n도 적어주었다.)
+ 
+file.close()     --> 파일을 열었으면 항상 file.close()를 통해 닫아주어야 한다.
+
+play 버튼을 누르고 python을 입력하면 python.csv 파일이 새로 생성되고 그 안에 우리가 적어준 내용과 똑같은 내용이 있는 것을 볼 수 있다.
+다음 줄에는 더 상세한 정보들을 적어 줄 것이다.
+
+
+3. 이제 전에 만들어놓은 코드의 주석을 풀어 직업 정보를 추출할 것이고, 그 다음에 파일을 열어 볼 것이다.
+from extractors.indeed import extract_indeed_jobs
+from extractors.wwr import extract_wwr_jobs
+
+keyword = input("What do you want to search for?:")
+
+indeed = extract_indeed_jobs(keyword)
+wwr = extract_wwr_jobs(keyword)
+jobs = indeed + wwr     --> job 추출하기
+
+file = open(f"{keyword}.csv", "w")     --> file 열기(쓰기모드로)
+
+file.write("Position, company, Location, URL\n")     --> {keyword}.csv 파일에서의 헤더 작성하기
+
+for job in jobs:     
+  file.write(f"{job['position']}, {job['company'], {job['location']}, {job['link']}\n")     --> csv 파일에 한 줄에 하나의 job_data에서의 value들을 작성함. (\n으로 줄바꿈)
+
+file.close()
+
+* for문 작성 시 앞에 함수에서 작성해 놓았던 job_data를 참고한다.
+
+python을 입력하고 play 버튼을 누르면 console 창에서는 도중에 에러가 발생하지만 python.csv 파일에서는 맨 위에는 헤더가 작성되어 있고, 각 job 정보가 줄바꿈
+되어 들어가 있는 것을 볼 수 있다.
+
+
+4. 이제 이 python.csv 파일을 다운로드하여 컴퓨터에서 열어 볼 것이다. 엑셀로 열면 position column에는 직업이, company에는 회사 이름이, location에는 지역이,
+URL에는 채용 공고 주소가 들어 있다. 그런데 몇몇 부분에서는 URL에 지역이 적혀 있는 등 문제가 좀 있다. 예를 들어 위치에 Google, URL에 서울이 적혀 있다면 
+이는 HTML상에서 위치 부분이 'Google, 서울' 이런 식으로 적혀 있었을 가능성이 있다. 즉, 데이터에 콤마가 적혀 있을 수도 있다는 것이다.
+csv 파일에서 콤마는 아주 중요하다. 쉼표로 열이 분리되기 때문이다. 
+따라서 쉼표를 없애는 코드를 작성해야 한다. 콤마 부분을 스페이스로 바꾸어 주면 가독성도 좋아지고 불필요한 열 분할이 일어나지 않게 할 수 있다.
+
+job_data = {
+          'link': f"https://kr.indeed.com{link}",
+          'company': company.string.replace(",", " "),
+          'location': location.string.replace(",", " "),
+          'position': title.replace(",", " ")
+        }     --> 모든 파일에서의 job_data dictionary에 replace 함수를 추가하여 "," 를 " "(띄어쓰기가 있는 공백)으로 대체한다. 그리고 다시 play 버튼을 눌러 
+                   python을 입력하고 결과를 본다. 필요 없는 열이 사라진 것을 볼 수 있다.
