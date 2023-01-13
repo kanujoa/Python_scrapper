@@ -1,0 +1,35 @@
+1. list의 각 item에서 코드를 실행할 수 있는 방법을 알아야 한다. 우리는 사용자에게 jobs list 안의 job을 보여 주고 싶기 때문이다. 이는 for과 in을 사용하여 구현할 
+수 있다.
+우리는 for과 in을 HTML안에 적어 줄 것이기 때문에 다음과 같이 {% %} 안에 for과 in을 적어주어야 한다.
+
+<body>
+  <h1>Search Results for "{{keyword}}":</h1>
+  {% for job in jobs %}     --> 주목!
+  {% endfor %}     --> 주목! (Flask에게 for문이 끝났다는 것을 알려준다.)
+</body>
+
+* {{}}과 {%%} 문법의 차이
+- {{}}의 경우 안에 variable을 넣으면 Flask가 그 variable을 값으로 변환해 준다.
+- {%%}의 경우 안에 우리가 실행시키고 싶은 파이썬 코드를 넣는다.
+
+이제 만들어진 for loop 안에 user가 보게 될 HTML 코드를 작성할 수 있다. Flask는 그것을 job list의 모든 job마다 그 HTML을 보여줄 것이다.
+앞에서 job은 회사의 링크, 회사명, 직군 이름, 직장 위치를 가지고 있었다. job 안의 link에 접근하는 코드를 작성해 보자.
+보통의 파이썬에서는 job['link'] 이런 식으로 작성하지만 template에서는 조금 다르게 작성해야 한다.
+<body>
+  <h1>Search Results for "{{keyword}}":</h1>
+  {% for job in jobs %}
+  <div>{{job.link}}</div>     --> 주목!!
+  {% endfor %}   
+</body>
+결과로 링크들이 한 줄에 하나씩 쭉 뜨는 것을 볼 수 있다.
+마우스 우클릭으로 inspect 해보면 링크 하나하나가 <div>로 감싸져 있는 것을 볼 수 있다.
+모든 정보를 띄우기 위해 다음과 같이 적어준다.
+<div>
+    <span>{{job.position}}</span>     
+    <span>{{job.company}}</span>
+    <span>{{job.location}}</span>
+    <a href = "{{job.link}}" target="_blank">Apply now &rarr;</a>     --> target=_blank는 응답이 새로운 탭에 나타날 것을 의미한다. &rarr은 화살표를 의미하는 HTML 객체이다.
+  </div>                                                                                (Apply now를 클릭했을 때 다른 탭으로 간다.)
+  {% endfor %}
+결과로 한 줄에 하나의 job 정보가 다 뜨는 것을 볼 수 있다. 오른쪽에 있는 Apply now에는 링크가 부여되었기 때문에 클릭하면 그에 해당하는 채용 공고 페이지로
+넘어간다.

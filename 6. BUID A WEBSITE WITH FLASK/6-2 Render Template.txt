@@ -1,0 +1,47 @@
+1. 사용자에게 text를 반환하는 대신 HTML template를 작성한 후 사용자에게 우리의 data를 넣어서 전달하면 더 좋을 것이다.
+
+우선 새로운 페이지를 하나 만든다.
+@app.route("/hello")     --> 페이지의 이름이 hello가 된다. 기본 주소인 https://Study-Python.kanujoa.repl.co의 뒤에 /hello가 붙은 형태의 주소가 생성된다.
+def hello():
+  return 'hello you!'
+
+그리고 우리가 원래 사용하던 페이지에서 text 대신 HTML을 이용하여 화면에 띄울 것이다.
+@app.route("/")
+def home():
+  return "<h1>Hey there</h1><a href='/hello'>go to hello</a>"     --> 링크가 부여된 go to hello text를 누르면 /hello 주소로 이동하여 화면에 hello you!가 뜨게
+                                                                                           된다.
+그런데 계속 이렇게 return 다음에 HTML 코드를 작성하는 방식은 후에 HTML 코드가 길어졌을 때 별로 좋지 않은 방식이 된다. 따라서 새로운 폴더를 만들어 그곳에
+작성할 것이다.
+
+
+2. 폴더의 이름은 다른 것은 절대 안되고 'templates'라고만 작성해야 한다. 왜냐하면 Flask에서 templates라는 이름의 폴더를 찾아보기 때문이다. 그리고 main.py 파일
+과 templates 폴더는 같은 level에 있어야 한다. 
+그리고 templates 폴더 하부에 HTML 코드를 작성할 home.html이라는 파일을 만든다. (파일 이름은 아무거나 작성해도 상관 없다.)
+
+!+tab 키를 누르면 HTML 양식이 자동으로 완성된다.
+<title>Job Scrapper</title>
+<body>
+  <h1>Hello to you</h1>
+</body>     --> 이렇게 두 부분을 수정해야 한다.
+
+from flask import Flask, render_template     --> render_template도 import해 온다.
+
+@app.route("/")
+def home():
+  return render_template("home.html")     --> return 다음에 HTML 코드를 적는 대신에 'home.html' 파일을 불러온다.
+이렇게 하면 Hello to you가 home.html으로부터 render된다.
+
+
+3. 위의 것은 Hello to you 밖에 하지 못하는 매우 정적인 HTML이다. 우리는 HTML에 변수를 넣어 user가 웹사이트를 보기 전에 Flask가 그 변수를 replace하여 조금
+은 변화가 있는 웹사이트를 만들어 볼 것이다.
+@app.route("/")
+def home():
+  return render_template("home.html", name="nico")     --> home.html 파일에 있는 변수 name에 nico를 대입할 것이다.
+
+<body>
+  <h1>Hello to you! My name is {{name}}</h1>     --> 중괄호를 2개씩 입력하고 그 안에 변수 name을 넣는다.
+</body>
+서버를 멈추고 다시 Run 시키면 My name is nico까지 추가로 화면에 뜨는 것을 볼 수 있다.
+python은 백엔드로 사용되었다. nico라는 문자열 데이터는 백엔드에서부터 전달되고 있다.
+request가 도착하면 Flask는 변수를 가져다가 HTML templates 안에 있는 변수를 가져온 것으로 replace하고 그렇게 만들어진 결과의 HTML이 user에게 전달될 
+것이다.

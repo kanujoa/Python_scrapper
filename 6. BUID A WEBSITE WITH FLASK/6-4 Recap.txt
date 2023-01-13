@@ -1,0 +1,16 @@
+- app.run() 함수를 호출하면 Flask application을 그냥 만들어준다. 괄호 안에 "0.0.0.0"을 넣어주면 replit이 우리가 웹 서버를 실행하려고 하는 것을 감지하여 우리에게
+  브라우저 창이랑 서버 console을 열어준다. 서버이기 때문에 user의 request에 대기하고 있고 멈추지 않는다.
+
+- @app.route("/")은 user가 홈페이지로 왔을 때 응답하겠다는 의미이다. 이 데코레이터를 바로 아래에 함수와 같이 붙여 쓰면 user에게 함수가 return하는 값을 전달
+  할 것이다.
+
+- render_template을 import하면 Flask가 templates 폴더를 들여다볼 수 있게 해준다.
+render_template("templates 폴더 하부에 있는 파일 이름")을 적어준 것을 return하면 화면에 그 파일 내용이 적용되게 된다.
+콤마를 적고 변수="value" 이러한 형태로 적어주면 HTML에 변수를 전달할 수 있다. user가 응답을 받기 전에 Flask는 우리의 HTML 안의 변수를 실제 data로 바꾸어 
+주어 user가 보는 화면을 구성해 주는 것이다. 홈페이지로 가면 Flask가 변수 값을 그 자리에 넣어주는 것을 볼 수 있다.
+
+- form에 action 속성을 넣어주어 /search 페이지로 이동하도록 만들었다. 이것은 그 페이지로 가서 URL에 있는 input 값들(keword 값)에 접근할 수 있다는 것이다.
+  form은 기본적으로 get 메소드가 설정되어 있다. (method="get") get은 사용자가 action에 넣은 페이지로 이동하게 되면 user가 우리의 input에 넣은 모든 value를 
+  URL에 넣을 것이다. 
+
+다음 시간에는 URL에서 user가 input한 부분을 모두 꺼내어 그것을 페이지 어딘가에 넣어 볼 것이다.

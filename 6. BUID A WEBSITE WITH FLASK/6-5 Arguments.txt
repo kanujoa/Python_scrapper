@@ -1,0 +1,37 @@
+1. URL에 있는 keword 값을 search function안에서 사용해 볼 것이다.
+from flask import Flask, render_template, request     --> request를 import하여 request에 대한 정보에 접근할 수 있도록 해 주었다.
+* request: 브라우저가 웹사이트에 가서 콘텐츠를 요청하는 것을 말한다.
+
+@app.route("/search")
+def search():     --> hello 함수의 이름을 search로 바꾼 것이다.
+  print(request.args)     --> args는 arguments를 의미한다. (주소의 물음표 뒤에 있는 arguements에서 keyword을 가져온다.)
+  return render_template("search.html")     --> search.html 파일을 가져온다.
+
+python을 입력하면 화면상에서 달라지는 것은 없지만 console창에 request.args 의 작용으로 ImmutableMultiDict([('keyword', 'python')]) 이 뜬다. request의 args에서 
+keyword를 가져올 수 있다는 것을 알 수 있다.
+@app.route("/search")
+def search():
+  keyword = request.args.get("keyword")     --> request.args에서 get 메소드를 사용하여 'keyword'의 value에 해당하는 'python'을 가져올 수 있다.
+  return render_template("search.html", keyword=keyword)     --> keyword를 template에 보낸다.
+
+이제 우리는 keyword를 얻어왔으니 그것을 template에 보낼 수 있다. 따라서 사용자가 무엇을 검색하는지 알려줄 수 있다.
+
+다음은 search.html에서 수정할 내용이다.
+<h1>Search Results for "{{keyword}}":</h1>     --> main.py에서 받아온 keyword가 HTML에 적용될 것이다. (Flask가 {{}}안에 적힌 변수이름을 실제 변수의 값으로 대
+                                                               체하고 있다.)
+
+이제 검색창에 python을 입력하면 Search Results for "python": 이라는 text가 화면에 뜨는 것을 볼 수 있다.
+
+
+2. 이제 저번에 만들어 둔 scrapper 코드의 결과를 화면에 띄워 볼 것이다.
+from extractors.indeed import extract_indeed_jobs     --> 함수 import하기
+from extractors.wwr import extract_wwr_jobs     --> 함수 import하기
+
+@app.route("/search")
+def search():
+  keyword = request.args.get("keyword")
+  indeed = extract_indeed_jobs(keyword)     --> keyword로 두 개의 function을 호출하였다.
+  wwr = extract_wwr_jobs(keyword)
+  jobs = indeed + wwr     --> jobs는 indeed와 wwr에서 키워드 검색을 한 결과를 모두 합친 것이다. (job_data dicationary들이 담긴 하나의 리스트로 결과가 나옴).
+  return render_template("search.html", keyword=keyword, jobs=jobs)     --> search.html에 있는 변수인 jobs에 위에서 정의해준 jobs 값으로 replace되어 
+                                                                                                화면에 결과가 나타나게 된다.

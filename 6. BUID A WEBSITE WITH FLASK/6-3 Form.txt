@@ -1,0 +1,45 @@
+<body>
+  <h1>Job Scrapper</h1>
+  <h4>What job do you want?</h4>
+  <form>
+    <input type="text" name="keyword" placeholder="Write keyword please"/>
+    <button>Search</button>
+  </form>
+</body>
+
+* input에서 name 속성은 자바스크립트에서 요소를 참조하거나 양식이 제출된 후 양식 데이터를 참조하는 데 사용됨.
+  양식을 제출할 때 이름 특성이 있는 양식 요소만 해당 값을 전달함.
+결과로 입력란과 Search 버튼이 생성된다.
+
+입력란에 python을 치고 enter 버튼을 누르면 똑같은 페이지로 이동하지만 주소를 보면 keyword=python이 추가되어 있는 것을 볼 수 있다.
+따라서 input에 name을 넣어야 하는 것이다. 그것이 바로 URL에 나타날 것이기 때문이다.
+
+우리는 무언가를 입력하고 제출한 후에도 같은 페이지에 머물고 싶지 않다. 따라서 다음과 같이 작성하여 /search 주소로 이동할 것이다.
+<form action="/search">     --> 주목!
+    <input type="text" name="keyword" placeholder="Write one keyword please"/>
+    <button>Search</button>
+</form> 
+python 키워드로 검색하면 결과로 Not found 페이지가 뜬다.
+
+
+2. /search 페이지가 정상적으로 작동하게 하기 위해 route를 만들어 줄 것이다. main.py에 이전에 만들어 두었던 /hello 부분을 /search로 바꾸기만 하면 된다.
+@app.route("/search")     --> 주목!
+def hello():
+  return 'hello you!'    
+결과로 Not Found 대신에 hello you! 가 뜨게 된다.
+
+
+3. 이제 우리는 사용자가 작성한 keyword를 가져와야 한다.
+우리는 extract_indeed_jobs를 keyword와 함께 호출할 것이다. 이번에는 keyword가 URL로부터 올 것이다.
+새 template을 추가할 것인데 templates 폴더 하부에 search.html을 하나 생성한다. (역시 파일 이름은 아무렇게나 작성해도 된다.)
+<title>Job Scrapper</title>     --> title은 그대로이다.
+<body>
+  <h1>Search Results:</h1>     --> 검색 결과를 보여줄 창이므로 Search Results: 라고 작성한다.
+</body>
+
+@app.route("/search")
+def hello():     
+  return render_template("search.html")     --> return 다음에는 search.html을 불러오는 코드를 작성한다.
+이제 이전처럼 실행시켜 보면 hello you! 대신에 Search Results: 가 뜬다.  
+(이렇게 /search 페이지로 이동하는 것이 가능한 것은 <form>작성 시 action="/search"를 작성해 주었기 때문이다.)
+우리는 user에게 우리가 작성한 HTML을 전달하는 것에 성공하였다.
